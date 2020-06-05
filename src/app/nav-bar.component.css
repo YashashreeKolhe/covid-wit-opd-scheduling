@@ -1,0 +1,6 @@
+.navbar-dark .navbar-nav .nav-link {
+	white-space: nowrap;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 14px;
+}

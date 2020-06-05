@@ -1,0 +1,40 @@
+<div>
+  <div class="card">
+    <div class="card-header bg-white">
+      <div clas="row">
+        <h4 style="display: inline-block;">Enrolled Hospitals</h4>
+        <div class="float-right">
+          <button type="submit" class="btn btn-success" (click)="enrollHospital()">Enroll your hospital</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="card border-info" id="bordered-panel">
+            <div class="card-header text-white bg-info">Hospitals</div>
+            <div class="card-body">
+              <ag-grid-angular style="height: 400px;" class="ag-theme-alpine" [rowData]="rowData"
+                [gridOptions]="gridOptions" [columnDefs]="columnDefs">
+              </ag-grid-angular>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card border-info" id="bordered-panel" style="height: 200px">
+                <div class="card-header text-white bg-info">Doctors</div>
+                <div class="card-body">
+                  <ag-grid-angular style="height: 400px;" class="ag-theme-alpine" [rowData]="rowDataHDoctor"
+                    [gridOptions]="gridOptionsDcoctor" [columnDefs]="columnDefsDoctor">
+                  </ag-grid-angular>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

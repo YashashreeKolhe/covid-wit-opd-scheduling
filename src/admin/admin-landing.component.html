@@ -1,0 +1,150 @@
+<div>
+  <div class="card">
+    <div class="card-header bg-white">
+      <div clas="row">
+        <h4 style="display: inline-block;">Hospital OPD Administration</h4>
+        <div class="float-right">
+          <button type="submit" class="btn btn-success" (click)="bookForWalkin()">Book for Walk-in</button>
+          <button type="submit" class="btn btn-success" (click)="modifyParameters(parametersModal)" style="margin-left: 10px">Modify Parameters</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-7">
+          <div class="card border-info" id="bordered-panel">
+            <div class="card-header text-white bg-info">Appointments</div>
+            <div class="card-body">
+              <form>
+                <div class="form-row">
+                  <div class="form-group col-sm-3">
+                    <label for="inputEmail4">Doctor's Name</label>
+                    <select class="form-control" [(ngModel)]="selectedDoctor" name="doctor">
+                      <option *ngFor="let doctor of doctorsList" id="inputEmail4" [value]="doctor.DoctorId">{{doctor.DoctorName}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-sm-3">
+                    <label>Time Slot</label>
+                    <select class="form-control" [(ngModel)]="selectedSlot" name="slot">
+                      <option *ngFor="let slot of slots" [value]="slot">{{slot}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-sm-3" style="padding-top: 30px">
+                    <button type="submit" class="btn btn-success" (click)="search()">Search</button>
+                  </div>
+                  <div class="form-group col-sm-3">
+                    <label>Vacant Seats</label>
+                    <input type="number" class="form-control" [(ngModel)]="vacantSeats" name="vacantSeats"/>
+                  </div>
+                </div>
+              </form>
+              <ag-grid-angular
+                  style="height: 400px;"
+                  class="ag-theme-alpine"
+                  [rowData]="rowData"
+                  [gridOptions]="gridOptions"
+                  [columnDefs]="columnDefs"
+                  >
+              </ag-grid-angular>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5" style="padding-left: 0px;">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card border-info" id="bordered-panel" style="height: 200px">
+                <div class="card-header text-white bg-info">COVID Related Alerts!</div>
+                <div class="card-body" style="overflow: auto;">
+                  <div *ngFor="let alert of alerts">
+                    <pre class="alert alert-danger">{{alert}}</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 10px; padding-left: 0px;">
+            <div class="col-md-12">
+              <div class="card border-info" id="bordered-panel">
+                <div class="card-header text-white bg-info">Emergency Details</div>
+                <div class="card-body">
+                  <form>
+                    <div class="form-row">
+                      <div class="form-group col-sm-6">
+                        <label for="inputEmail4">Doctor's Name</label>
+                        <select class="form-control" [(ngModel)]="selectedEmergencyDoctor" name="doctor">
+                          <option *ngFor="let doctor of doctorsList" id="inputEmail4" [value]="doctor.DoctorId">{{doctor.DoctorName}}</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-sm-6">
+                        <label for="inputEmail4">Date</label>
+                        <input type="text"
+                          class="form-control"
+                          #dp="bsDatepicker"
+                          bsDatepicker [(ngModel)]="selectedEmergencyDate" name="selectedEmergencyDate">
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-sm-6">
+                        <label class="control-label" for="datetimepicker-from">Unavailability From</label>
+                        <timepicker [(ngModel)]="selectedDateFrom" name="selectedDateFrom" [showMeridian]="true"></timepicker>
+                      </div>
+                      <div class="form-group col-sm-6">
+                        <label class="control-label" for="datetimepicker-to">Unavailability To</label>
+                        <timepicker [(ngModel)]="selectedDateTo" name="selectedDateTo" [showMeridian]="true"></timepicker>
+                      </div>
+                    </div>
+                    <div class="form-group form-row">
+                      <button type="submit" class="btn btn-success" (click)="PushPatientsAndNotify()">Push Patients and notify</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #parametersModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Hospital Parameters</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-row">
+        <div class="form-group col-sm-3" style="margin-right: 10px">
+          <label for="inputEmail4">Select Doctor</label>
+          <select class="form-control" [(ngModel)]="chosenDoctorId" name="doctor" #item (change)="onChangeDoctor(item.value)">
+            <option *ngFor="let doctor of doctorsList" id="inputEmail4" [value]="doctor.DoctorId">{{doctor.DoctorName}}</option>
+          </select>
+        </div>
+        <div class="form-group col-sm-3" *ngIf="doctor">
+          <label class="control-label" for="datetimepicker-from">OPD Start Time</label>
+          <timepicker [(ngModel)]="doctor.OPDStartTime" name="selectedDateFrom" [showMeridian]="true"></timepicker>
+        </div>
+        <div class="form-group col-sm-3" *ngIf="doctor">
+          <label class="control-label" for="datetimepicker-from">OPD End Time</label>
+          <timepicker [(ngModel)]="doctor.OPDEndTime" name="selectedDateFrom" [showMeridian]="true"></timepicker>
+        </div>
+        <div class="form-group col-sm-2" style="padding-top: 30px">
+          <button type="submit" class="btn btn-success" (click)="saveDoctorDetails()">Update OPD</button>
+        </div>
+      </div>
+      <hr>
+      <div class="form-row">
+        <div class="form-group col-sm-3" style="margin-right: 15px">
+          <label for="inputEmail4">Slot Duration</label>
+          <input type="number" id="inputEmail4" class="form-control" name="points" [(ngModel)]="hospitalDetails.SlotDurationInMinutes" step="15" max="60">
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <div class="pull-left">
+      <button class="btn btn-success" (click)="saveParameters()">Update</button>
+      <button class="btn btn-basic" (click)="modalRef.hide()">Cancel</button>
+    </div>
+  </div>
+</ng-template>

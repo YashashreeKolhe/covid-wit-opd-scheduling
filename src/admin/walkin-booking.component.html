@@ -1,0 +1,49 @@
+<div>
+  <div class="card card-primary">
+    <div class="card-header border-top">
+      <div clas="row">
+        <h4 style="display: inline-block;">Booking for walk-in</h4>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-9">
+          <div class="card border-info" id="bordered-panel">
+            <div class="card-body">
+              
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3" style="padding-left: 0px;">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card border-info" id="bordered-panel">
+                <div class="card-header text-white bg-info">Vacant Slots</div>
+                <div class="card-body" style="overflow: auto;">
+                  <form>
+                    <div class="form-row">
+                      <div class="form-group col-sm-9">
+                        <label for="inputEmail4">Doctor's Name</label>
+                        <select class="form-control" [(ngModel)]="selectedDoctor" name="doctor" #item (change)="onChangeDoctor(item.value)">
+                          <option *ngFor="let doctor of doctorsList" id="inputEmail4" [value]="doctor.DoctorId">{{doctor.DoctorName}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </form>
+                  <ag-grid-angular
+                      style="height: 400px;"
+                      class="ag-theme-alpine"
+                      [rowData]="rowData"
+                      [gridOptions]="gridOptions"
+                      [columnDefs]="columnDefs"
+                      >
+                  </ag-grid-angular>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

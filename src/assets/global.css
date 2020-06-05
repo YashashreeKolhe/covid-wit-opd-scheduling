@@ -1,0 +1,15 @@
+.bg-card-header {
+  background-color: beige;
+}
+
+.card {
+	border: none;
+}
+
+.card-header {
+	padding: 0.4rem 1rem;
+}
+
+h4 {
+	margin-bottom: 0;
+}
