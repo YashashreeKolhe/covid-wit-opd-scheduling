@@ -12,14 +12,17 @@ Online Hospital OPD scheduling system which will prove to be vital during the cr
 ## Short description
 
 ## What's the problem?
-Considering today’s crisis of Global Pandemic, practicing social norms has become very crucial. As a result management of social distancing norms is a dire need to limit further spread of COVID-19 especially in the Hospitals.
+Considering, today's crisis of global pandemic, practising social-norms has become, very crucial. As a result, management of social distancing norms, is a dire need to limit, further spread of covid-19, especially, in hospitals.
 
 ## How can technology help?
-Technology can play a vital role in managing the crowd of patients visiting the Hospital. With the help of technology half the formalities required to be done at hospital can be done virtually, making the visit of a person to the Hospital be solely to meet Doctor.
+In India, very few hospitals use technology to manage patients in an OPD. In the prevailing, manual system used by majority of hospitals, patients have to stand and wait in long queues to visit doctor. This itself violates the essential social norms that need to be practised to curb the further spread of the virus. Moreover, hospital administration lacks effective tools to avert any threat posed by the potential covid-19 suspects among the patients visiting the hospital.
 
 ## The idea
-To develop a Web Application which helps the patient book a time and doctor based on the availability from the listed hospitals. This application also gives the hospital management staff to manage the availability of the doctors and appointment slots of their respective hospitals.
+To develop a centralized system to integrate OPD management for a number of hospitals, allowing patients to make an online appointment with any doctor from any hospital enrolled with us. The patient retrieves slot timings, thus limiting the number of patients visiting at given point of time, thereby ensuring social norms. 
 
+System makes use of well-designed algorithms to cater to emergency cases by automatically rescheduling and notifying patients in the affected slots. Thus, our system covers the easiest way for different hospitals to restrict the number of people entering the hospital at a given time. 
+
+Besides, we provide a tool for hospital administration to identify and track the potential covid suspects visiting the hospital for the day so that they can be isolated from other visitors.
 
 ## The architecture
 
@@ -33,11 +36,10 @@ To develop a Web Application which helps the patient book a time and doctor base
 
 
 
-1.	User/Patient can register himself and book an appointment.
-2.	Schedule appointment logic will look for whether selected slot is free or not and book an appointment accordingly.
-3.	Admin can register for walk in patients. He can pull down scheduled appointments for further slot according to capacity of hospital to maintain social distancing measure.
-4.	Admin can also pull down the appointment in case of emergency.
-5.	If admin pulls down an appointment, user will be notified about the new timings accordingly.
+1.	Visitor can register himself and book an appointment at desired hospital through the Angular Web App.
+2.	Admin (allocated to hospital) can book an appointment onbehalf of walk-in patients based on vacanies. He can also declare               unavailability of doctors. All this is performed through the Angular Web App hosted on IBM Cloud Foundry. 
+4.  The Spring Web API fetches/dumps data into the db and exposes the data on endpoints. The logic of OPD scheduling and algorithm of       postponing the appointments also lie here. It is deployed on IBM Cloud Foundry.
+5. The DB2 database residing on ibm cloud to store the hospital, appointment, visitor data.
 
 ## Long description
 
@@ -73,6 +75,6 @@ You can find a running system to test at https://covid-wit-opd-scheduling-delive
 
 ## Built with
 
-•	IBM DB2 warehouse - The database used
-
-•	IBM Cloud Foundry - Build and deployment platform for Angular Web App and Spring Web api
+* IBM DB2 warehouse - The database used
+*	IBM Cloud Foundry - Build and deployment platform for Angular Web App and Spring Web api
+* Maven - Dependency management
