@@ -72,5 +72,7 @@ You will have the UI running on https://localhost:4200
 You can find a running system to test at https://covid-wit-opd-scheduling-delivery-pipeline.eu-gb.mybluemix.net/
 
 ## Built with
+
 •	IBM DB2 warehouse - The database used
+
 •	IBM Cloud Foundry - Build and deployment platform for Angular Web App and Spring Web api
