@@ -15,8 +15,8 @@ export class DataService  {
 
   show() { this.visible = true; }
 
-  endpoint: string = 'http://localhost:8080';
-  //'https://opd-scheduling-system.eu-gb.mybluemix.net';
+  //endpoint: string = 'http://localhost:8080';
+  endpoint: string = 'https://opd-scheduling-system.eu-gb.mybluemix.net';
 
   checkPatientLogin(username, password): Observable<boolean> {
     return this.http.post<boolean>(`${this.endpoint}/checkPatientLogin`, {

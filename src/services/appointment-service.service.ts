@@ -6,8 +6,8 @@ import { Emergency } from 'src/models/emergency';
 
 @Injectable()
 export class AppointmentService {
-  endpoint: string = 'http://localhost:8080';
-  //'https://opd-scheduling-system.eu-gb.mybluemix.net';
+  endpoint: string = 'https://opd-scheduling-system.eu-gb.mybluemix.net';
+  //'http://localhost:8080';
 
   constructor(private http: HttpClient) { }
 
