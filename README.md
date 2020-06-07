@@ -1,4 +1,4 @@
-The repository holds the code for OPD Scheduling System developed for WiT Hackathon
+The repository holds the code for OPD Scheduling System which will help to follow social distancing norms at hospitals. It is a participation for WiT Hackathon.
 
 ## Contents
 1.	Short description
