@@ -28,21 +28,11 @@ Besides, we provide a tool for hospital administration to identify and track the
 
 ## The architecture
 
-
-
-
-
-
-
-
-
-
-
-1.	Visitor can register himself and book an appointment at desired hospital through the Angular Web App.
-2.	Admin (allocated to hospital) can book an appointment onbehalf of walk-in patients based on vacanies. He can also declare               unavailability of doctors. All this is performed through the Angular Web App hosted on IBM Cloud Foundry. 
-4.  The Spring Web API fetches/dumps data into the db and exposes the data on endpoints. The logic of OPD scheduling and algorithm of       postponing the appointments also lie here. It is deployed on IBM Cloud Foundry.
-5. The DB2 database residing on ibm cloud to store the hospital, appointment, visitor data.
-6. Due to issues in connecting db2 to web api, we are currently doing in-memory storage.
+1.Visitor can register himself and book an appointment at desired hospital through the Angular Web App.
+2.Admin (allocated to hospital) can book an appointment onbehalf of walk-in patients based on vacanies. He can also declare               unavailability of doctors. All this is performed through the Angular Web App hosted on IBM Cloud Foundry. 
+4.The Spring Web API fetches/dumps data into the db and exposes the data on endpoints. The logic of OPD scheduling and algorithm of       postponing the appointments also lie here. It is deployed on IBM Cloud Foundry.
+5.The DB2 database residing on ibm cloud to store the hospital, appointment, visitor data.
+6.Due to issues in connecting db2 to web api, we are currently doing in-memory storage.
 
 ## Long description
 
