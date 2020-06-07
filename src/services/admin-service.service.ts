@@ -8,7 +8,7 @@ export class AdminService {
 
   constructor(private http: HttpClient) { }
 
-  endpoint: string = 'https://opd-scheduling-system.eu-gb.mybluemix.net/';
+  endpoint: string = 'https://opd-scheduling-system.eu-gb.mybluemix.net';
   //endpoint: string = 'http://localhost:8080';
 
   getAdminDetails(adminUserName: string): Observable<Admin> {
