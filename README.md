@@ -1,4 +1,4 @@
-Online Hospital OPD scheduling system which will prove to be vital during the crisis of Global Pandemic of covid-19.
+The repository holds the code for OPD Scheduling System developed for WiT Hackathon
 
 ## Contents
 1.	Short description
@@ -11,18 +11,20 @@ Online Hospital OPD scheduling system which will prove to be vital during the cr
 
 ## Short description
 
-## What's the problem?
+### What's the problem?
 Considering, today's crisis of global pandemic, practising social-norms has become, very crucial. As a result, management of social distancing norms, is a dire need to limit, further spread of covid-19, especially, in hospitals.
 
-## How can technology help?
+### How can technology help?
 In India, very few hospitals use technology to manage patients in an OPD. In the prevailing, manual system used by majority of hospitals, patients have to stand and wait in long queues to visit doctor. This itself violates the essential social norms that need to be practised to curb the further spread of the virus. Moreover, hospital administration lacks effective tools to avert any threat posed by the potential covid-19 suspects among the patients visiting the hospital.
 
-## The idea
+### The idea
 To develop a centralized system to integrate OPD management for a number of hospitals, allowing patients to make an online appointment with any doctor from any hospital enrolled with us. The patient retrieves slot timings, thus limiting the number of patients visiting at given point of time, thereby ensuring social norms. 
 
 System makes use of well-designed algorithms to cater to emergency cases by automatically rescheduling and notifying patients in the affected slots. Thus, our system covers the easiest way for different hospitals to restrict the number of people entering the hospital at a given time. 
 
 Besides, we provide a tool for hospital administration to identify and track the potential covid suspects visiting the hospital for the day so that they can be isolated from other visitors.
+
+## Demo Video
 
 ## The architecture
 
