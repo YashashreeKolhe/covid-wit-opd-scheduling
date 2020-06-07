@@ -59,7 +59,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ##### Prerequisites
   
-  Node.js installation: v12.16.3
+ * Node.js installation: v12.16.3  https://nodejs.org/en/download/
 
 Clone the repository, open the terminal and navigate into the directory where you have cloned the repo.
 Run the following commands,
@@ -69,6 +69,28 @@ npm run start
 ```
 You will have the UI running on https://localhost:4200
 
+### Java Spring setup
+
+##### Prerequisites
+  
+ * Install maven  https://maven.apache.org/download.cgi
+ * Verify maven installation
+   ```
+   mvn -v
+   ```
+Clone the repository.
+ * Build project using the command
+  ```
+  mvn compile
+  ```
+  * Run package goal
+  ```
+  mvn package
+  ```
+  * Run obtained jar file
+  
+You will have the web api running on http://localhost:8080
+
 ## Live demo
 
 You can find a running system to test at https://covid-wit-opd-scheduling-delivery-pipeline.eu-gb.mybluemix.net/
@@ -76,5 +98,7 @@ You can find a running system to test at https://covid-wit-opd-scheduling-delive
 ## Built with
 
 * IBM DB2 warehouse - The database used
-*	IBM Cloud Foundry - Build and deployment platform for Angular Web App and Spring Web api
-* Maven - Dependency management
+*	Java Spring Boot  - The compute platform for handling logic and web API
+* Angular 9 - The web framework used 
+* Maven - Dependency management     
+* IBM Cloud Foundry - Build and deployment platform for Angular Web App and Spring Web api
