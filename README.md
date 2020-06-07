@@ -42,17 +42,19 @@ Besides, we provide a tool for hospital administration to identify and track the
 2.	Admin (allocated to hospital) can book an appointment onbehalf of walk-in patients based on vacanies. He can also declare               unavailability of doctors. All this is performed through the Angular Web App hosted on IBM Cloud Foundry. 
 4.  The Spring Web API fetches/dumps data into the db and exposes the data on endpoints. The logic of OPD scheduling and algorithm of       postponing the appointments also lie here. It is deployed on IBM Cloud Foundry.
 5. The DB2 database residing on ibm cloud to store the hospital, appointment, visitor data.
+6. Due to issues in connecting db2 to web api, we are currently doing in-memory storage.
 
 ## Long description
 
 ## Project roadmap
 
-Day	Frontend	Middle Tier	Database
-3rd  June	Create architecture, wireframes and database schema
-4th  June	Create GIT repo and deploy it on IBM cloud	Create DB2 service
-5th  June	Implement wireframes	Functions needed to get information from frontend	Created Tables
-6th  June	Implement wireframes	Implement pull down, schedule appointment and notify user logic	Dumped data into table, created required DML statements and stored procedures
-7th  June	Final integration of all three tiers and testing
+Day | Frontend | Middle Tier | Database
+---- | --------| ----------- |----------
+3rd  June | Create wireframes and database schema
+4th  June | Basic skeleton development | Backend logic implementation |	Create DB2 service
+5th  June	| Screens development | Backend logic	| Create Schema
+6th  June |	Screens development and testing	|	Web API implementation| DDL, DML creation
+7th  June	| Integration and testing with Backend | Integration and testing with frontend | Queries creation
 
 ## Getting started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
