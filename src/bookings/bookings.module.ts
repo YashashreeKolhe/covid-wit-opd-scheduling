@@ -1,22 +1,22 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
-import { AgGridModule } from 'ag-grid-angular';
+import { ServicesModule } from 'src/services/services.module';
 
-import { EnrolledHospitalsComponent } from './enrolled-hospitals.component';
+import { BookingsComponent } from './bookings.component';
 
 @NgModule({
   declarations: [
-    EnrolledHospitalsComponent,
+    BookingsComponent,
   ],
   imports: [
     BrowserModule,
     CommonModule,
-    AgGridModule
+    ServicesModule
   ],
   providers: [],
   exports: [
-    EnrolledHospitalsComponent
+    BookingsComponent
   ]
 })
-export class HospitalsModule { }
+export class BookingsModule { }

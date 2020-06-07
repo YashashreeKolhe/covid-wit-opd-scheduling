@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
@@ -9,6 +9,7 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule, BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrModule } from 'ngx-toastr';
+import { DatePipe } from '@angular/common';
 
 import { ServicesModule } from 'src/services/services.module';
 import { AdminLandingComponent } from './admin-landing.component';
@@ -24,6 +25,7 @@ import { WalkinBookingComponent } from './walkin-booking.component';
     CommonModule,
     FormsModule,
     ServicesModule,
+    ReactiveFormsModule,
     TimepickerModule.forRoot(),
     PopoverModule.forRoot(),
     BsDatepickerModule.forRoot(),
@@ -33,7 +35,8 @@ import { WalkinBookingComponent } from './walkin-booking.component';
     AgGridModule.withComponents([])
   ],
   providers: [
-    BsModalRef
+    BsModalRef,
+    DatePipe
   ],
   exports: [
     AdminLandingComponent,

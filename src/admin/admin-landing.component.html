@@ -4,7 +4,8 @@
       <div clas="row">
         <h4 style="display: inline-block;">Hospital OPD Administration</h4>
         <div class="float-right">
-          <button type="submit" class="btn btn-success" (click)="bookForWalkin()">Book for Walk-in</button>
+          <button type="submit" class="btn btn-success" *ngIf="!isEnrolled" (click)="enrollHospital(enrollmentModal)">Enroll your hospital</button>
+          <button type="submit" class="btn btn-success" (click)="bookForWalkin()" style="margin-left: 10px">Book for Walk-in</button>
           <button type="submit" class="btn btn-success" (click)="modifyParameters(parametersModal)" style="margin-left: 10px">Modify Parameters</button>
         </div>
       </div>
@@ -19,7 +20,7 @@
                 <div class="form-row">
                   <div class="form-group col-sm-3">
                     <label for="inputEmail4">Doctor's Name</label>
-                    <select class="form-control" [(ngModel)]="selectedDoctor" name="doctor">
+                    <select class="form-control" [(ngModel)]="selectedDoctor" name="doctor" #item (change)="onDoctorChanged(item.value)">
                       <option *ngFor="let doctor of doctorsList" id="inputEmail4" [value]="doctor.DoctorId">{{doctor.DoctorName}}</option>
                     </select>
                   </div>
@@ -127,15 +128,14 @@
           <label class="control-label" for="datetimepicker-from">OPD End Time</label>
           <timepicker [(ngModel)]="doctor.OPDEndTime" name="selectedDateFrom" [showMeridian]="true"></timepicker>
         </div>
-        <div class="form-group col-sm-2" style="padding-top: 30px">
-          <button type="submit" class="btn btn-success" (click)="saveDoctorDetails()">Update OPD</button>
-        </div>
       </div>
-      <hr>
       <div class="form-row">
-        <div class="form-group col-sm-3" style="margin-right: 15px">
+        <div class="form-group col-sm-3" style="margin-right: 15px" *ngIf="doctor">
           <label for="inputEmail4">Slot Duration</label>
-          <input type="number" id="inputEmail4" class="form-control" name="points" [(ngModel)]="hospitalDetails.SlotDurationInMinutes" step="15" max="60">
+          <input type="number" id="inputEmail4" class="form-control" name="points" [(ngModel)]="doctor.SlotDuration" step="15" max="60">
+        </div>
+        <div class="form-group col-sm-2" style="padding-top: 30px">
+          <button type="submit" class="btn btn-success" (click)="saveDoctorDetails()">Update</button>
         </div>
       </div>
     </form>
@@ -143,7 +143,71 @@
 
   <div class="modal-footer">
     <div class="pull-left">
-      <button class="btn btn-success" (click)="saveParameters()">Update</button>
+      <button class="btn btn-basic" (click)="modalRef.hide()">Cancel</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #enrollmentModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Hospital Enrollment</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-row">
+        <div class="form-group col-sm-4" >
+          <label for="hospname">Hospital Name</label>
+          <input type="text" id="hospname" class="form-control" name="hospname" [(ngModel)]="hospitalDetailsEnroll.HospitalName">
+        </div>
+      </div>
+      <hr>
+      <div class="form-row">
+        <div class="form-group col-sm-3">
+          <label for="docname">Doctor Name</label>
+          <input type="text" id="docname" class="form-control" name="docname" [(ngModel)]="doctorEnroll.DoctorName">
+        </div>
+        <div class="form-group col-sm-3">
+          <label for="specname">Speciality</label>
+          <input type="text" id="specname" class="form-control" name="specname" [(ngModel)]="doctorEnroll.DoctorSpeciality">
+        </div>
+        <div class="form-group col-sm-3">
+          <label class="control-label" for="datetimepicker-from">OPD Start Time</label>
+          <timepicker [(ngModel)]="doctorEnroll.OPDStartTime" name="selectedDateFrom" [showMeridian]="true"></timepicker>
+        </div>
+        <div class="form-group col-sm-3">
+          <label class="control-label" for="datetimepicker-from">OPD End Time</label>
+          <timepicker [(ngModel)]="doctorEnroll.OPDEndTime" name="selectedDateFrom" [showMeridian]="true"></timepicker>
+        </div>  
+      </div>
+      <div class="form-row">
+        <div clas="form-group col-sm-3">
+          <label for="avgtime">Average Time to See Patient</label>
+          <input type="number" id="avgtime" class="form-control" name="avgtime" [(ngModel)]="doctorEnroll.AverageTimeInMinutes" step="1" max="60">
+        </div>
+        <div class="form-group col-sm-3">
+          <label for="slot">Slot Duration</label>
+          <input type="number" id="slot" class="form-control" name="slot" [(ngModel)]="doctorEnroll.SlotDuration" step="15" max="60">
+        </div>
+        <div class="form-group col-sm-3" style="padding-top: 30px">
+          <button type="submit" class="btn btn-success" (click)="addDoctor()">Add Doctor</button>
+        </div>
+      </div>
+      
+      <hr>
+    </form>
+    <ag-grid-angular
+        style="height: 200px;"
+        class="ag-theme-alpine"
+        [rowData]="rowDataDoctor"
+        [gridOptions]="gridOptionsDoctor"
+        [columnDefs]="columnDefsDoctor"
+        >
+    </ag-grid-angular>
+  </div>
+
+  <div class="modal-footer">
+    <div class="pull-left">
+      <button class="btn btn-success" (click)="enroll();modalRef.hide()">Enroll</button>
       <button class="btn btn-basic" (click)="modalRef.hide()">Cancel</button>
     </div>
   </div>

@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 export class NavBarComponent {
 	menus: any;
 	isCollapsed = false;
+	selectedMenu: string;
 
 	constructor(
 		private router: Router
@@ -23,12 +24,12 @@ export class NavBarComponent {
 			}, 
 			{
 				'Title': 'Enrolled Hospitals',
-				'Location': '/hospitals',
+				'Location': '/enrolled-hospitals',
 				'IsActive': false
 			},
 			{
 				'Title': 'My Bookings',
-				'Location': '/my-bookings',
+				'Location': '/bookings',
 				'IsActive': false 
 			},
 			{
@@ -47,6 +48,7 @@ export class NavBarComponent {
 				'IsActive': false
 			}
 		];
+		this.selectedMenu = this.menus[0].Title;
 	}
 
 	redirectToHome() {

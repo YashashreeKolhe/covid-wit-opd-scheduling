@@ -1,0 +1,180 @@
+<div>
+  <div class="card">
+    <div class="card-header bg-white">
+      <div clas="row">
+        <h4 style="display: inline-block;">Hospital OPD Scheduling System</h4>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="card border-info" id="bordered-panel" style="height: 550px">
+                <img class="card-img-top" src="assets/social-distancing.png" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title">Social Distancing</h5>
+                  <p class="card-text">We ensure that social distancing will be followed at hospitals by scheduling
+                    appoinments is such a way that the crowding at the hospitals will reduce significantly.</p>
+                  <h5 class="card-title">Isolation of COVID suspects</h5>
+                  <p class="card-text">Our system generates alerts when the covid suspects are on arrival, we isolate
+                    him at the entrance itself to ensure safety of others. We guess if the visitor is covid suspect
+                    through the symptoms he is showing.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="card border-info" id="bordered-panel" style="height: 550px">
+                <img class="card-img-top" src="assets/queue.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title">Walk-ins handled smartly</h5>
+                  <p class="card-text">The walk-ins are handled smartly taking into consideration vacancies or by
+                    pushing time slots of next visitors to maintain social distance.</p>
+                  <h5 class="card-title" style="margin-top: 40px">Offline Booking Facility</h5>
+                  <p class="card-text">We provide an offline booking facility where the administrator does the booking
+                    on behalf of the visitor.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="card border-info" id="bordered-panel" style="height: 550px">
+                <img class="card-img-top" src="assets/notification.png" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title">Keep visitors notified</h5>
+                  <p class="card-text">Our algorithm does smart allocation of slots at the time of emergency at the
+                    hospital which keeps in mind social distancing protocols to ensure minimum number of visitors
+                    present in hospital premises.</p>
+                  <h5 class="card-title" style="color: blue">Register and book your slot!</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card border-info" id="bordered-panel">
+            <div class="card-header text-white bg-info">Login</div>
+            <div class="card-body">
+              <div>
+                <ngb-tabset [destroyOnHide]="false">
+                  <ngb-tab title="Patient Login">
+                    <ng-template ngbTabContent>
+                      <form [formGroup]="patientloginForm"
+                        (ngSubmit)="onClickSubmitPatientLoginDetails(patientloginForm.value)">
+                        <tr class="row2">
+                          <td>
+                            <label for="patientloginEmailId">Email Id</label>
+                          </td>
+                          <td>
+                          </td>
+                          <td>
+                            <input class="form-control" name="patientloginEmailId" id="patientloginEmailId" type="text"
+                              formControlName="patientloginEmailId">
+                          </td>
+                        </tr>
+                        <tr class="row2">
+                          <td>
+                            <label for="patientloginPassword">Password</label>
+                          </td>
+                          <td>
+                          </td>
+                          <td>
+                            <input class="form-control" name="patientloginPassword" id="patientloginPassword"
+                              type="password" formControlName="patientloginPassword">
+                          </td>
+                        </tr>
+                        <tr class="row2">
+                          <td>
+                          </td>
+                          <td>
+                            <button class='btn btn-danger' type="submit"
+                              [disabled]="!patientloginForm.valid">Submit</button>
+                          </td>
+                        </tr>
+                      </form>
+                    </ng-template>
+                  </ngb-tab>
+
+                  <ngb-tab title="Patient Registration">
+                    <ng-template ngbTabContent>
+                      <form [formGroup]="patientRegistrationForm"
+                        (ngSubmit)="onClickSubmitPatientLoginDetails(patientRegistrationForm.value)">
+                        <tr class="row2">
+                          <td>
+                            <label for="patientregEmailId">Email Id</label>
+                          </td>
+                          <td>
+                          </td>
+                          <td>
+                            <input class="form-control" name="patientregEmailId" id="patientregEmailId" type="text"
+                              formControlName="patientregEmailId">
+                          </td>
+                        </tr>
+                        <tr class="row2">
+                          <td>
+                            <label for="patientregPassword">Password</label>
+                          </td>
+                          <td>
+                          </td>
+                          <td>
+                            <input class="form-control" name="patientregPassword" id="patientregPassword"
+                              type="password" formControlName="patientregPassword">
+                          </td>
+                        </tr>
+                        <tr class="row2">
+                          <td>
+                          </td>
+                          <td>
+                            <button class='btn btn-danger' type="submit"
+                              [disabled]="!patientRegistrationForm.valid">Submit</button>
+                          </td>
+                        </tr>
+                      </form>
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab>
+                    <ng-template ngbTabTitle>Admin Login</ng-template>
+                    <ng-template ngbTabContent>
+                      <form [formGroup]="adminLoginForm"
+                        (ngSubmit)="onClickSubmitPatientLoginDetails(adminLoginForm.value)">
+                        <tr class="row2">
+                          <td>
+                            <label for="adminloginEmailId">Email Id</label>
+                          </td>
+                          <td>
+                          </td>
+                          <td>
+                            <input class="form-control" name="adminloginEmailId" id="adminloginEmailId" type="text"
+                              formControlName="adminloginEmailId">
+                          </td>
+                        </tr>
+                        <tr class="row2">
+                          <td>
+                            <label for="adminloginPassword">Password</label>
+                          </td>
+                          <td>
+                          </td>
+                          <td>
+                            <input class="form-control" name="adminloginPassword" id="adminloginPassword"
+                              type="password" formControlName="adminloginPassword">
+                          </td>
+                        </tr>
+                        <tr class="row2">
+                          <td>
+                          </td>
+                          <td>
+                            <button class='btn btn-danger' type="submit"
+                              [disabled]="!adminLoginForm.valid">Submit</button>
+                          </td>
+                        </tr>
+                      </form>
+                    </ng-template>
+                  </ngb-tab>
+                </ngb-tabset>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

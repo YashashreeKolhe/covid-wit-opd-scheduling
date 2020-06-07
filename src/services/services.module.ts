@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { DoctorService } from './doctor-service.service';
 import { AppointmentService } from './appointment-service.service';
 import { HospitalService } from './hospital-service.service';
+import { AdminService } from './admin-service.service';
 
 @NgModule({
  imports: [
@@ -14,7 +15,8 @@ import { HospitalService } from './hospital-service.service';
   providers: [
     DoctorService,
     AppointmentService,
-    HospitalService
+    HospitalService,
+    AdminService
   ],
   exports: [
   ]

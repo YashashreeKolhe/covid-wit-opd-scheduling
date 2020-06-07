@@ -1,0 +1,62 @@
+<div class="card">
+  <div class="card-header bg-white">
+    <div clas="row">
+      <h4 style="display: inline-block;">My Bookings</h4>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card border-info" id="bordered-panel" style="height: 500px">
+          <div class="card-header text-white bg-info">Appointments</div>
+          <div class="card-body">
+            <table class="table table-stripe">
+              <thead>
+                <tr>
+                  <th>Appointment No.</th>
+                  <th>Patient Name</th>
+                  <th> Hospital Name </th>
+                  <th> Doctor Name </th>
+                  <th> Date </th>
+                  <th> Time Slot </th>
+                  <th> Is slot changed</th>
+                  <th> Action</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <ng-container *ngFor="let book of bookingslist">
+                  <tr>
+                    <td> {{ book.AppointmentNumber }} </td>
+                    <td>{{ book.PatientName }} </td>
+                    <td> {{ book.HospitalName }} </td>
+                    <td> {{ book.DoctorName }} </td>
+                    <td> {{ book.Date }} </td>
+                    <td> {{ book.Timeslot }} </td>
+                    <td> {{ book.IsPushed }} </td>
+                    <td> <button class='btn btn-danger' (click)="deleteRow(book.appointmentId)">Cancel</button> </td>
+                  </tr>
+                </ng-container>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" style="padding-left: 0px;">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card border-info" id="bordered-panel" style="height: 500px">
+              <div class="card-header text-white bg-info">Alerts!</div>
+              <div class="card-body" style="overflow: auto;">
+                <div *ngFor="let alert of alerts">
+                  <pre class="alert alert-danger">{{alert}}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

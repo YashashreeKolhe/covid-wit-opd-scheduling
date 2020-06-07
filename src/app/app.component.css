@@ -1,0 +1,21 @@
+tr.row2 td {
+    padding-top: 40px;
+}
+
+.bg {
+    /* The image used */
+    /*background-image: url("C:\Users\Siddharth\Music\WiT-Covid-OPD-Scheduling\src\cartoon.jpg");*/
+  
+    /* Half height */
+    height: 50%;
+  
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}  
+
+#bordered-panel {
+    border: 1px solid rgba(0,0,0,0.125);
+    border-radius: 5px;
+}

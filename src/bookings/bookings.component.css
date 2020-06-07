@@ -1,0 +1,15 @@
+
+.bt {
+    padding:5px 15px; 
+    background:#ccc; 
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+    background-color: rgb(224, 31, 31);
+}
+
+#bordered-panel {
+    border: 1px solid rgba(0,0,0,0.125);
+    border-radius: 5px;
+}

@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-  <a class="navbar-brand" (click)="redirectToHome()"><b>OPD Scheduling</b></a>
+  <a class="navbar-brand" (click)="redirectToHome()"></a>
   <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" #navbarSupportedContent [ngbCollapse]="isCollapsed">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item" *ngFor="let menu of menus" (click)="menu.IsActive = true" [ngClass]="menu.IsActive ? 'active' : ''">
+      <li class="nav-item" *ngFor="let menu of menus" (click)="selectedMenu = menu.Title" [ngClass]="selectedMenu === menu.Title ? 'active' : ''">
         <a class="nav-link" [routerLink]="menu.Location"><span>{{menu.Title}}</span></a>
       </li>
     </ul>
