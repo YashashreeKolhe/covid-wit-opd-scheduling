@@ -9,13 +9,13 @@ export class AdminService {
   constructor(private http: HttpClient) { }
 
   //endpoint: string = 'https://opd-scheduling-system.eu-gb.mybluemix.net/';
-  endpoint: string = 'https://localhost:8080';
+  endpoint: string = 'http://localhost:8080';
 
   getAdminDetails(adminUserName: string): Observable<Admin> {
     //return { 'AdminId': 1, 'AdminUserName': 'ADMIN123', 'HospitalId': 0};
-    return this.http.get<Admin>(`${this.endpoint}/`, {
+    return this.http.get<Admin>(`${this.endpoint}/getAdminDetails`, {
         params: {
-          adminUserName: adminUserName,
+          emailId: adminUserName,
         }
       });
   }
@@ -24,6 +24,15 @@ export class AdminService {
     return this.http.get<number>(`${this.endpoint}/getPatientIdFromEmail`, {
       params: {
         email: patientEmail,
+      }
+    });
+  }
+
+  setHospitalId(hospitalId: number, adminId: number): Observable<string> {
+    return this.http.get<string>(`${this.endpoint}/setHospitalId`, {
+      params: {
+        hospitalId: hospitalId.toString(),
+        adminId: adminId.toString()
       }
     });
   }

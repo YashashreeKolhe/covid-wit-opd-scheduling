@@ -97,7 +97,7 @@
                   <ngb-tab title="Patient Registration">
                     <ng-template ngbTabContent>
                       <form [formGroup]="patientRegistrationForm"
-                        (ngSubmit)="onClickSubmitPatientLoginDetails(patientRegistrationForm.value)">
+                        (ngSubmit)="onClickSubmitRegistrationDetails(patientRegistrationForm.value)">
                         <tr class="row2">
                           <td>
                             <label for="patientregEmailId">Email Id</label>
@@ -135,7 +135,7 @@
                     <ng-template ngbTabTitle>Admin Login</ng-template>
                     <ng-template ngbTabContent>
                       <form [formGroup]="adminLoginForm"
-                        (ngSubmit)="onClickSubmitPatientLoginDetails(adminLoginForm.value)">
+                        (ngSubmit)="onClickSubmitAdminLoginDetails(adminLoginForm.value)">
                         <tr class="row2">
                           <td>
                             <label for="adminloginEmailId">Email Id</label>

@@ -6,12 +6,12 @@ import { Emergency } from 'src/models/emergency';
 
 @Injectable()
 export class AppointmentService {
-  endpoint: string = 'https://localhost:8080';
+  endpoint: string = 'http://localhost:8080';
   //'https://opd-scheduling-system.eu-gb.mybluemix.net';
 
   constructor(private http: HttpClient) { }
 
-  getAppointments(doctorId: number, slot: string): Observable<Appointment[]> {
+  getAppointments(doctorId: number, slot: string, date: string): Observable<Appointment[]> {
     // return [
     //   { 'AppointmentNumber': 1001, 'PatientName': 'Yashashree Kolhe', 'PatientAge': 22, 'PatientGender': 'F', 'IsCovidSuspect': false, 'Timeslot': '11:00 AM' },
     //   { 'AppointmentNumber': 1001, 'PatientName': 'Yashashree Kolhe', 'PatientAge': 22, 'PatientGender': 'F', 'IsCovidSuspect': true, 'Timeslot': '11:00 AM' },
@@ -20,7 +20,8 @@ export class AppointmentService {
     return this.http.get<Appointment[]>(`${this.endpoint}/getPatientList`, {
       params: {
         doctorId: doctorId.toString(),
-        timeSlot: slot
+        timeslot: slot.toUpperCase(),
+        date: date
       }
     });
   }
@@ -29,7 +30,7 @@ export class AppointmentService {
     // return [
     //   { 'AppointmentNumber': 1001, 'PatientName': 'Yashashree Kolhe', 'PatientAge': 22, 'PatientGender': 'F', 'IsCovidSuspect': true, 'Timeslot': '11:00 AM' },
     // ];
-    return this.http.get<Appointment[]>(`/url`, {
+    return this.http.get<Appointment[]>(`${this.endpoint}/getCovidSuspectsList`, {
       params: {
         hospitalId: hospitalId.toString(),
         date: date.toString()
@@ -37,28 +38,27 @@ export class AppointmentService {
     });
   }
 
-  getEmergenciesForToday(date: string ): Observable<Emergency[]> {
+  getEmergenciesForToday(hospitalId: number ): Observable<Emergency[]> {
     // return [
 
     // ];
-    return this.http.get<Emergency[]>(`${this.endpoint}/`, {
+    return this.http.get<Emergency[]>(`${this.endpoint}/getEmergencyList`, {
       params: {
-        date: date.toString()
+        hospitalId: hospitalId.toString()
       }
     });
   }
 
-  getPushedAppointmentsForPatient(patientId: number, date: string) {
-    return [
-      { 'AppointmentNumber': 1001, 'PatientName': 'Yashashree Kolhe', 'HospitalName': 'KEM', 'DoctorName': 'Dr. Cooper', 'Timeslot': '11:00 AM' },
-      { 'AppointmentNumber': 1002, 'PatientName': 'Yashashree Kolhe', 'HospitalName': 'KEM', 'DoctorName': 'Dr. Cooper', 'Timeslot': '11:00 AM' },
-    ];
-    //return this.http.get<Appointment[]>(`${this.endpoint}/`, {
-    //   params: {
-    //     patientId: patientId
-    //     date: date
-    //   }
-    // });
+  getPushedAppointmentsForPatient(patientId: number): Observable<Appointment[]> {
+    // return [
+    //   { 'AppointmentNumber': 1001, 'PatientName': 'Yashashree Kolhe', 'HospitalName': 'KEM', 'DoctorName': 'Dr. Cooper', 'Timeslot': '11:00 AM' },
+    //   { 'AppointmentNumber': 1002, 'PatientName': 'Yashashree Kolhe', 'HospitalName': 'KEM', 'DoctorName': 'Dr. Cooper', 'Timeslot': '11:00 AM' },
+    // ];
+    return this.http.get<Appointment[]>(`${this.endpoint}/getPushedAppointmentList`, {
+      params: {
+        patientId: patientId.toString()
+      }
+    });
   }
 
   getAppointmentsForAPatient(patientId: number): Observable<Appointment[]> {
@@ -74,8 +74,13 @@ export class AppointmentService {
     });
   }
 
-  getDeletedAppointments(patientId: number) {
-    return [];
+  getDeletedAppointments(patientId: number): Observable<Appointment[]> {
+    //return [];
+    return this.http.get<Appointment[]>(`${this.endpoint}/getCancelledAppointmentList`, {
+      params: {
+        'patientId': patientId.toString()
+      }
+    });
   }
 
   submitAppointment(data): Observable<string> {
@@ -83,22 +88,22 @@ export class AppointmentService {
   }
 
   cancelAppointment(appointmentId: number){
-    return this.http.get<any>(`${this.endpoint}/`, {
+    return this.http.get<any>(`${this.endpoint}/deleteAppointment`, {
       params: {
         appointmentId: appointmentId.toString()
       }
     });
   }
 
-  getAllTimeSlots(startTime: string, endTime: string, slot: number) {
-    return ["11:00 AM", '12:00 PM', '1:00 PM'];
-    // return this.http.get<string[]>(`${this.endpoint}/`, {
-    //   params: {
-    //     startTime: startTime,
-    //     endTime: endTime,
-    //     slot: slot
-    //   }
-    // });
+  getAllTimeSlots(startTime: string, endTime: string, slot: number): Observable<string[]> {
+    //return ["11:00 AM", '12:00 PM', '1:00 PM'];
+    return this.http.get<string[]>(`${this.endpoint}/getAllTimeSlots`, {
+      params: {
+        start: startTime,
+        end: endTime,
+        slotTimeInMinStr: slot.toString()
+      }
+    });
   }
 
   getNextAvailableSlot(doctorId: number) {

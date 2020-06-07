@@ -15,25 +15,36 @@ export class DataService  {
 
   show() { this.visible = true; }
 
-  endpoint: string = 'https://localhost:8080';
+  endpoint: string = 'http://localhost:8080';
   //'https://opd-scheduling-system.eu-gb.mybluemix.net';
 
   checkPatientLogin(username, password): Observable<boolean> {
-    return this.http.post<boolean>(`${this.endpoint}/`, {
-      emailId: username, password: password
+    return this.http.post<boolean>(`${this.endpoint}/checkPatientLogin`, {
+      emailId: username, 
+      password: password
     });
   }
 
   submitRegistrationDetails(emailId, passowrd){
     var appointmentObj = {
       EmailId: emailId,
-      Password: passowrd
+      Password:passowrd,
+      PatientGender: '',
+      PatientAge: -1,
+      PatientIllness:'',
+      PatientId: -1,
+      PatientName: '',
+      HospitalId: -1,
+      DateString: '',
+      Timeslot: '',
+      MobileNumber: '',
+      DoctorId: -1
     } as Appointment;
-    return this.http.post<boolean>(`${this.endpoint}/`, appointmentObj);
+    return this.http.post<string>(`${this.endpoint}/setPatientData`, appointmentObj);
   }
   
-  checkAdminLogin(emailId, password): Observable<number> {
-    return this.http.post<number>(`${this.endpoint}/`, {
+  checkAdminLogin(emailId, password): Observable<boolean> {
+    return this.http.post<boolean>(`${this.endpoint}/checkAdminLogin`, {
       emailId: emailId, password: password
     });
   }

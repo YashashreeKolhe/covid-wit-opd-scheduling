@@ -7,7 +7,7 @@ import { Hospital } from 'src/models/hospital';
 @Injectable()
 export class HospitalService {
   //endpoint: string = 'https://opd-scheduling-system.eu-gb.mybluemix.net/';
-  endpoint: string = 'https://localhost:8080';
+  endpoint: string = 'http://localhost:8080';
 
   constructor(private http: HttpClient) { }
 
@@ -23,7 +23,7 @@ export class HospitalService {
     });
   }
 
-  getHospitals(): Observable<Hospital[]> {
+  getHospitals(): Observable<any> {
     // return [
     //   { 'HospitalId': 1, 'HospitalName': 'KEM Hospital', 'DoctorsList': 
     //     [
@@ -46,10 +46,12 @@ export class HospitalService {
     //       {'DoctorId': 2, 'DoctorName': 'Dr. XYZ', 'DoctorSpeciality': 'Paediatric' }
     //     ],  SlotDurationInMinutes: 30 }
     // ];
-    return this.http.get<Hospital[]>(`${this.endpoint}/getHospitalList`);
+    return this.http.get<any>(`${this.endpoint}/getHospitalList`);
   }
 
-  saveHospital(hospital: Hospital): Observable<any> {
-    return this.http.post<string>(`${this.endpoint}/addHospitalData`, hospital);
+  saveHospital(hospital: Hospital): Observable<number> {
+    console.log(hospital);
+    console.log(JSON.stringify(hospital));
+    return this.http.post<number>(`${this.endpoint}/addHospitalData`, JSON.stringify(hospital));
   }
 }

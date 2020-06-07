@@ -7,8 +7,8 @@ import { Emergency } from 'src/models/emergency';
 @Injectable()
 export class DoctorService {
   //endpoint: string = 'https://opd-scheduling-system.eu-gb.mybluemix.net/';
-  endpoint: string = 'https://localhost:8080';
-  
+  endpoint: string = 'http://localhost:8080';
+
   constructor(private http: HttpClient) { }
 
   getDoctorsList(hospitalId: number): Observable<Doctor[]> {
@@ -28,13 +28,12 @@ export class DoctorService {
   }
 
   pushPatientsAndNotify(emergency: Emergency): Observable<string> {
-    return this.http.post<string>(`${this.endpoint}/pushAppointments`, {
+    return this.http.get<string>(`${this.endpoint}/pushAppointments`, {
       params: {
-        hospitalId: emergency.HospitalId,
-        doctorName: emergency.DoctorName,
-        from: emergency.UnavailableFrom,
-        to: emergency.UnavailableTo,
-        date: emergency.DateString
+        doctorId: emergency.DoctorId.toString(),
+        fromStr: emergency.UnavailableFrom,
+        toStr: emergency.UnavailableTo,
+        date: emergency.DateString.toString()
       }
     });
   }

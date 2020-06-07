@@ -28,25 +28,10 @@ export class NavBarComponent {
 				'IsActive': false
 			},
 			{
-				'Title': 'My Bookings',
-				'Location': '/bookings',
-				'IsActive': false 
-			},
-			{
 				'Title': 'Contact Us',
 				'Location': '/contact-us',
 				'IsActive': false
 			},
-			{
-				'Title': 'Admin',
-				'Location': '/admin',
-				'IsActive': false
-			},
-			{
-				'Title': 'Walk-in',
-				'Location': '/walk-in',
-				'IsActive': false
-			}
 		];
 		this.selectedMenu = this.menus[0].Title;
 	}

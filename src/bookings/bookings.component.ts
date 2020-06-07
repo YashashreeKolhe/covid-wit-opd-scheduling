@@ -24,8 +24,8 @@ export class BookingsComponent implements OnInit {
 
   async ngOnInit() {
     this.spinner.show();
-    this.route.params.subscribe(params =>
-      this.patientId = params['PatientId']
+    this.route.queryParams.subscribe(params =>
+      this.patientId = params['patientId']
     );
     this.getBookingsList(this.patientId);
     this.alerts = await this.generateAlerts();
@@ -33,47 +33,28 @@ export class BookingsComponent implements OnInit {
   }
 
   async generateAlerts() {
-    var emergencies = await this.appointmentService.getEmergenciesForToday(new Date().toString()).toPromise();
-    var pushed = await this.appointmentService.getPushedAppointmentsForPatient(this.patientId, new Date().toString());
-    var deleted = this.appointmentService.getDeletedAppointments(this.patientId);
+    //var emergencies = await this.appointmentService.getEmergenciesForToday().toPromise();
+    var pushed = await this.appointmentService.getPushedAppointmentsForPatient(this.patientId).toPromise();
+    var deleted = await this.appointmentService.getDeletedAppointments(this.patientId).toPromise();
     var list = [];
     pushed.forEach(element => {
       list.push(` Your appointment No. '${element.AppointmentNumber}' is pushed to '${element.Timeslot}'`);
     });
-    emergencies.forEach(emergency => {
-      list.push(`${emergency.DoctorName} has an emergency from '${emergency.UnavailableFrom}' to '${emergency.UnavailableTo}`);
-    });
+    // emergencies.forEach(emergency => {
+    //   list.push(`${emergency.DoctorName} has an emergency from '${emergency.UnavailableFrom}' to '${emergency.UnavailableTo}`);
+    // });
     return list;
   }
 
   async getBookingsList(patientId){
-    /*this.data.getBookingsList().subscribe(
-      (result: Array<any>) => {
-          this.bookingslist = result;
-          
-      },(error:any) =>{
-        console.log('error', error)
-      }
-      
-    )*/
-    this.bookingslist = await this.appointmentService.getAppointmentsForAPatient(this.patientId).toString();
+    this.bookingslist = await this.appointmentService.getAppointmentsForAPatient(this.patientId).toPromise();
   }
 
-  deleteRow(appointmentId){
+  async deleteRow(appointmentId){
     this.spinner.show();
     console.log(appointmentId+"index is");
     this.appointmentService.cancelAppointment(appointmentId);
-    //subscribe to service for cancelling the appointment
-    /*this.data.updateBookingList().subscribe(
-      (result: Array<any>) => {
-          this.bookingslist = result;
-          
-      },(error:any) =>{
-        console.log('error', error)
-      }
-      
-    )*/
-    this.bookingslist = this.appointmentService.getAppointmentsForAPatient(this.patientId);
+    this.bookingslist = await this.appointmentService.getAppointmentsForAPatient(this.patientId).toPromise();
     this.spinner.hide();
   }
 }

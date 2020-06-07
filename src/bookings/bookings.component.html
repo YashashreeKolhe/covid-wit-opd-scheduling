@@ -31,9 +31,9 @@
                     <td>{{ book.PatientName }} </td>
                     <td> {{ book.HospitalName }} </td>
                     <td> {{ book.DoctorName }} </td>
-                    <td> {{ book.Date }} </td>
-                    <td> {{ book.Timeslot }} </td>
-                    <td> {{ book.IsPushed }} </td>
+                    <td> {{ book.DateString | date:'shortDate' }} </td>
+                    <td> {{ book.Timeslot | date:'shortTime' }} </td>
+                    <td> {{ book.IsPushed ? 'Yes' : 'No' }} </td>
                     <td> <button class='btn btn-danger' (click)="deleteRow(book.appointmentId)">Cancel</button> </td>
                   </tr>
                 </ng-container>

@@ -40,13 +40,9 @@ export class HomePageComponent {
  }
  
  async onClickSubmitPatientLoginDetails(data){
-   var result = await this.data.checkPatientLogin(data.patientloginEmailId, data.patientregPassword).toPromise();
+   var result = await this.data.checkPatientLogin(data.patientloginEmailId, data.patientloginPassword).toPromise();
    if(result == true){
-    this.router.navigateByUrl('/admin', {
-      queryParams: {
-        adminEmail: data.adminloginEmailId
-      }
-    });
+    this.router.navigateByUrl(`/book?patientEmail=${data.patientloginEmailId}`);
    }
    else{
     this.toastr.error('Invalid credentials!', 'Error');
@@ -56,19 +52,20 @@ export class HomePageComponent {
  async onClickSubmitAdminLoginDetails(data){
    //service to be written
    var result = await this.data.checkAdminLogin(data.adminloginEmailId, data.adminloginPassword).toPromise();
-   if(result > 0){
-     this.router.navigateByUrl('/admin', {
-       queryParams: {
-         adminEmail: data.adminloginEmailId
-       }
-     });
+   if(result == true){
+     this.router.navigateByUrl(`/admin?adminEmail=${data.adminloginEmailId}`);
    }
    else{
      this.toastr.error('Invalid credentials!', 'Error');
    }
  }
 
- onClickSubmitRegistrationDetails(data){
-   this.data.submitRegistrationDetails(data.patientregEmailId, data.patientloginPassword)
- }
+ async onClickSubmitRegistrationDetails(data){
+   var result = await this.data.submitRegistrationDetails(data.patientregEmailId, data.patientloginPassword).toPromise();
+    if (result == "Data added successfully") {
+      this.toastr.success('Registration successful!', 'Success');
+    } else {
+      this.toastr.error('Email already registered!', 'Error');
+    }
+  }
 }

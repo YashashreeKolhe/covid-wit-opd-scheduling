@@ -11,6 +11,7 @@ import { HospitalService } from 'src/services/hospital-service.service';
 import { Doctor } from 'src/models/doctor';
 import { DoctorService } from 'src/services/doctor-service.service';
 import { AdminService } from 'src/services/admin-service.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-book',
@@ -19,8 +20,8 @@ import { AdminService } from 'src/services/admin-service.service';
 })
 export class BookComponent implements OnInit {
   userForm: FormGroup;
-  hospitalsList: Hospital[] = [];
-  doctors: Doctor[];
+  hospitalsList: Hospital[];
+  doctors: Doctor[] = [];
   timeSlots: string[];
   patientId: number;
   patientEmail: string;
@@ -48,7 +49,8 @@ export class BookComponent implements OnInit {
     private toastr: ToastrService,
     private hospitalService: HospitalService,
     private appointmentService: AppointmentService,
-    private adminService: AdminService) { 
+    private adminService: AdminService,
+    private datePipe: DatePipe) { 
     this.userForm = this.formBuilder.group({
       'firstName': [this.user.FirstName, [Validators.required]],
       'lastName': [this.user.LastName, [Validators.required]],
@@ -64,12 +66,13 @@ export class BookComponent implements OnInit {
   }
 
   async ngOnInit(){
-    this.route.params.subscribe(params =>
+    this.route.queryParams.subscribe(params =>
       this.patientEmail = params['patientEmail']
     );
     this.patientId = await this.adminService.getPatientId(this.patientEmail).toPromise();
     this.user.PatientId = this.patientId;
-    this.hospitalsList = await this.hospitalService.getHospitals().toPromise();
+    var result = await this.hospitalService.getHospitals().toPromise();
+    this.hospitalsList = result.HospitalList;
   }
   
   async onClickSubmit(data){
@@ -85,29 +88,28 @@ export class BookComponent implements OnInit {
       HospitalId: data.hospitals,
       DoctorId: data.doctor,
       Date: data.appointmentDate,
-      Timeslot: data.timeSlot,
+      Timeslot: data.timeSlot.toUpperCase(),
       PatientIllness: data.notes,
       PatientName: data.firstName + ' ' + data.lastName,
-      DateString: data.appointmentDate.toString()
+      PatientAge: -1,
+      PatientGender: '',
+      Password: '',
+      DateString: this.datePipe.transform(data.appointmentDate, 'dd/MM/yyyy')
     } as Appointment;
     console.log(submitData);
     var result = await this.appointmentService.submitAppointment(submitData).toPromise();
   }
 
-  onHospitalChanged(newHospitalId) {
-    this.doctors = this.hospitalsList[newHospitalId].DoctorsList;
+  async onHospitalChanged(newHospitalId) {
+    this.doctors = await this.hospitalService.getDoctorList(this.hospitalsList[newHospitalId].HospitalId).toPromise();
   }
 
   async onDateChanged(date) {
-    var result = await this.appointmentService.getVacantSlots(this.userForm.value.doctor, this.userForm.value.appointmentDate.toString()).toPromise();
+    var result = await this.appointmentService.getVacantSlots(this.userForm.value.doctor, this.datePipe.transform(this.userForm.value.appointmentDate, 'dd/MM/yyyy')).toPromise();
     this.timeSlots = result.map(entry => entry.TimeSlot);
   }
     
   goToBookings() {
-    this.router.navigateByUrl('/bookings', {
-      queryParams: {
-        'PatientId': 1
-      }
-    });
+    this.router.navigateByUrl(`/bookings?patientId=${this.patientId}`);
   }
 }

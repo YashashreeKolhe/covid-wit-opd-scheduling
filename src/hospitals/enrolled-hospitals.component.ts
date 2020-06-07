@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { GridOptions, GridApi } from 'ag-grid-community';
 import { HospitalService } from 'src/services/hospital-service.service';
+import { DoctorService } from 'src/services/doctor-service.service';
 
 @Component({
   selector: 'enrolled-hospitals',
@@ -16,23 +17,24 @@ export class EnrolledHospitalsComponent {
   gridOptionsDoctor: GridOptions;
   gridApi: GridApi;
   
-  constructor(private hospitalService: HospitalService) {
+  constructor(private hospitalService: HospitalService,
+    private doctorService: DoctorService) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.gridOptions = {
       onRowClicked:params => this.onHospitalRowClicked(params),
       onGridReady:params => this.onGridReady(params)
     };
     this.columnDefs = this.getColumnDefsForHospitals();
     this.columnDefsDoctor = this.getColumnDefsForDoctors();
-    this.rowData = this.hospitalService.getHospitals();
-    this.rowDataDoctor = this.rowData[0].DoctorsList;
+    var result = await this.hospitalService.getHospitals().toPromise();
+    this.rowData = result.HospitalList;
+    this.rowDataDoctor = await this.doctorService.getDoctorsList(this.rowData[0].HospitalId).toPromise();
   }
 
   onGridReady(params) {
     this.gridApi = params.api;
-    this.gridApi.getDisplayedRowAtIndex(0).setSelected(true);
   }
 
   getColumnDefsForHospitals() {
@@ -75,7 +77,7 @@ export class EnrolledHospitalsComponent {
     ];
   }
 
-  onHospitalRowClicked(params) {
-    this.rowDataDoctor = this.rowData.find(hospital => hospital.HospitalId == params.data.HospitalId).DoctorsList;
+  async onHospitalRowClicked(params) {
+    this.rowDataDoctor = await this.doctorService.getDoctorsList(params.data.HospitalId).toPromise();
   }
 }

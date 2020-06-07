@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import {NgxSpinnerService} from 'ngx-spinner';
 import { HospitalService } from 'src/services/hospital-service.service';
 import { AdminService } from 'src/services/admin-service.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'walkin-booking',
@@ -25,12 +26,13 @@ export class WalkinBookingComponent {
   columnDefs;
   rowData: Vacancy[];
   gridOptions: GridOptions;
-  availableSlot: string;
+  availableSlot: string = '';
 
   userForm: FormGroup;
   hospitalsList: Hospital[] = [];
   doctors: Doctor[];
   timeSlots: string[];
+  isEnabled: boolean = false;
   
   user: Appointment = {
     PatientId: undefined,
@@ -57,12 +59,11 @@ export class WalkinBookingComponent {
     private hospitalService: HospitalService,
     private adminService: AdminService,
     public spinner: NgxSpinnerService,
-    private toastr: ToastrService,) {
+    private toastr: ToastrService,
+    private datePipe: DatePipe) {
       this.userForm = this.formBuilder.group({
         'firstName': [this.user.FirstName, [Validators.required]],
         'lastName': [this.user.LastName, [Validators.required]],
-        'hospitals': [this.user.HospitalId, [Validators.required]],
-        
         'mobileNumber': [this.user.MobileNumber, [Validators.required]],
         'emailId': [this.user.EmailId, [Validators.required]],
         'doctor': [this.user.HospitalId, [Validators.required]],
@@ -73,18 +74,18 @@ export class WalkinBookingComponent {
     }
 
   async ngOnInit() {
-    this.route.params.subscribe(params =>
+    this.route.queryParams.subscribe(params =>
       this.selectedHospital = params['hospitalId']
     );
     console.log(this.selectedHospital);
     this.doctorsList = await this.doctorService.getDoctorsList(this.selectedHospital).toPromise();
+    this.doctors = JSON.parse(JSON.stringify(this.doctorsList));
     this.gridOptions = {
       getRowStyle: params => this.getRowBackround(params)
     };
     this.columnDefs = this.getColumnDefs();
 
     this.user.PatientId = -1;
-    this.hospitalsList = await this.hospitalService.getHospitals().toPromise();
   }
 
   getRowBackround(params) {
@@ -94,7 +95,8 @@ export class WalkinBookingComponent {
   }
 
   async onChangeDoctor(newId: number) {
-    this.rowData = await this.appointmentService.getVacantSlots(newId, new Date().toString()).toPromise();
+    this.rowData = await this.appointmentService.getVacantSlots(newId, this.datePipe.transform(new Date(), 'dd/MM/yyyy')).toPromise();
+    this.isEnabled = this.rowData.map(entry => entry.Vacancies).reduce((acc, curr) => acc + curr) == 0;
   }
 
   async getNextAvailableSlot() {
@@ -116,26 +118,29 @@ export class WalkinBookingComponent {
     ];
   }
 
-  onClickSubmit(data){
+  async onClickSubmit(data){
     console.log(data);
     this.toastr.success('Appointment booked successfully!', 'Success');
     //this.data.submitBooking(data).subscribe()
     var submitData = {
-      PatientId: -1,
+      PatientId: -2,
       FirstName: data.firstName,
       LastName: data.lastName,
       MobileNumber: data.mobileNumber,
       EmailId: data.emailId,
-      HospitalId: data.hospitals,
+      HospitalId: this.selectedHospital,
       DoctorId: data.doctor,
       Date: data.appointmentDate,
-      Timeslot: data.timeSlot,
+      Timeslot: data.timeSlot.toUpperCase(),
       PatientIllness: data.notes,
+      PatientAge: -1,
+      PatientGender: '',
       PatientName: data.firstName + ' ' + data.lastName,
-      DateString: data.appointmentDate.toString()
+      DateString: this.datePipe.transform(data.appointmentDate, 'dd/MM/yyyy'),
+      Password: '123'
     } as Appointment;
     console.log(submitData);
-    var result = this.appointmentService.submitAppointment(submitData);
+    var result = await this.appointmentService.submitAppointment(submitData).toPromise();
   }
 
   onHospitalChanged(newHospitalId) {
@@ -143,7 +148,7 @@ export class WalkinBookingComponent {
   }
 
   async onDateChanged(date) {
-    var result = await this.appointmentService.getVacantSlots(this.userForm.value.doctor, this.userForm.value.appointmentDate.toString()).toPromise();
+    var result = await this.appointmentService.getVacantSlots(this.userForm.value.doctor, this.datePipe.transform(this.userForm.value.appointmentDate, 'dd/MM/yyyy')).toPromise();
     this.timeSlots = result.map(entry => entry.TimeSlot);
   }
     

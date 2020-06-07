@@ -63,40 +63,35 @@ export class AdminLandingComponent {
     private datePipe: DatePipe) {}
 
   async ngOnInit() {
-    this.alerts = await this.generateAlerts();
-    this.route.params.subscribe(params =>
-      this.adminUserName = params['username']
+    this.route.queryParams.subscribe(params =>
+      this.adminUserName = params['adminEmail']
     );
-    this.adminUserName = 'ADMIN123';
     this.admin = await this.adminService.getAdminDetails(this.adminUserName).toPromise();
     this.selectedHospital = this.admin.HospitalId;
-    if (this.selectedHospital == 0) {
+    this.alerts = await this.generateAlerts();
+    if (this.selectedHospital < 0) {
       this.isEnrolled = false;
     }
-    this.selectedHospital = 1;
     this.doctorsList = await this.doctorService.getDoctorsList(this.selectedHospital).toPromise();
     this.gridOptions = {
       getRowStyle: params => this.getRowBackround(params)
     };
-    // .toPromise().then(
-    //   result => this.doctorsList =  result
-    // );
     this.columnDefs = this.getColumnDefs();
   }
 
-  onDoctorChanged(newDocId: number) {
-    var doctor = this.doctorsList.find(doc => doc.DoctorId === parseInt(newDocId.toString(), 10));
-    this.slots = this.appointmentService.getAllTimeSlots(doctor.OPDStartTimeString, doctor.OPDEndTimeString, doctor.SlotDuration);
+  async onDoctorChanged(newDocId: number) {
+    var doctor = this.doctorsList.find(doc => doc.DoctorId === newDocId);
+    this.slots = await this.appointmentService.getAllTimeSlots(doctor.OPDStartTimeString, doctor.OPDEndTimeString, doctor.SlotDuration).toPromise();
   }
 
   async generateAlerts() {
-    var appointments = await this.appointmentService.getCovidSuspectsForToday(this.selectedHospital, new Date().toString()).toPromise();
-    var emergencies = await this.appointmentService.getEmergenciesForToday(new Date().toString()).toPromise();
+    var appointments = await this.appointmentService.getCovidSuspectsForToday(this.selectedHospital, this.datePipe.transform(new Date(), 'dd/MM/yyyy')).toPromise();
+    var emergencies = await this.appointmentService.getEmergenciesForToday(this.selectedHospital).toPromise();
     var list = [];
     list.push(`There are ${appointments.length} covid suspects arriving today!`);
     emergencies.forEach(emergency => {
-      list.push(`${emergency.DoctorName} has an emergency from '${emergency.UnavailableFrom}' to '${emergency.UnavailableTo}`);
-    })
+      list.push(`${emergency.DoctorName} has an emergency from '${emergency.UnavailableFrom}' to '${emergency.UnavailableTo}'`);
+    });
     appointments.forEach(element => {
       list.push(`No. '${element.AppointmentNumber}' is a covid suspect - Arriving at '${element.Timeslot}'`);
     });
@@ -119,33 +114,23 @@ export class AdminLandingComponent {
       {
         headerName: 'Patient Name',
         field: 'PatientName',
-        width: 150
+        width: 250
       },
       {
         headerName: 'Illness',
         field: 'PatientIllness', 
-        width: 120,
+        width: 200,
       },
-      {
-        headerName: 'Age',
-        field: 'PatientAge',
-        width: 70 
-      },
-      {
-        headerName: 'Gender',
-        field: 'PatientGender',
-        width: 70
-      },
-      {
-        headerName: 'Date',
-        field: 'Date',
-        width: 100
-      },
-      {
-        headerName: 'TimeSlot',
-        field: 'Timeslot',
-        width: 100 
-      },
+      // {
+      //   headerName: 'Age',
+      //   field: 'PatientAge',
+      //   width: 100 
+      // },
+      // {
+      //   headerName: 'Gender',
+      //   field: 'PatientGender',
+      //   width: 100
+      // },
       {
         headerName: 'Covid Suspect',
         field: 'IsCovidSuspect', 
@@ -156,15 +141,15 @@ export class AdminLandingComponent {
             return 'No';
           }
         },
-        width: 120
+        width: 200
       },
     ];
   }
 
   async search(){
-    this.rowData = await this.appointmentService.getAppointments(this.selectedDoctor, this.selectedSlot).toPromise();
-    var result = await this.appointmentService.getVacantSlots(this.selectedDoctor, new Date().toString()).toPromise();
-    this.vacantSeats = result.find(slot=> slot.TimeSlot === this.selectedSlot)?.Vacancies;
+    this.rowData = await this.appointmentService.getAppointments(this.selectedDoctor, this.selectedSlot, this.datePipe.transform(new Date(), 'dd/MM/yyyy')).toPromise();
+    var result = await this.appointmentService.getVacantSlots(this.selectedDoctor, this.datePipe.transform(new Date(), 'dd/MM/yyyy')).toPromise();
+    this.vacantSeats = result.find(slot=> slot.TimeSlot.toLowerCase() === this.selectedSlot.toLowerCase())?.Vacancies;
   }
 
   async PushPatientsAndNotify() {
@@ -175,8 +160,12 @@ export class AdminLandingComponent {
       UnavailableFrom: unavailableFrom,
       UnavailableTo: unavailableTo,
       DoctorId: this.selectedEmergencyDoctor,
-      Date: this.selectedEmergencyDate
+      DoctorName: this.doctorsList.find(doc => doc.DoctorId == this.selectedEmergencyDoctor).DoctorName,
+      Date: this.selectedEmergencyDate,
+      DateString: this.datePipe.transform(this.selectedEmergencyDate, 'dd/MM/yyyy'),
+      HospitalId: this.selectedHospital
     } as Emergency;
+    console.log(emergency);
     await this.doctorService.pushPatientsAndNotify(emergency).toPromise();
     this.toastr.success("The appointments are pushed to next slots and notifications are sent!", 'Success');
   }
@@ -215,7 +204,8 @@ export class AdminLandingComponent {
     // this.hospitalDetailsEnroll.DoctorsList.forEach(async hosp => {
     //   await this.doctorService.saveDoctorDetails(hosp).toPromise();
     // });
-    await this.hospitalService.saveHospital(this.hospitalDetailsEnroll).toPromise();
+    var result = await this.hospitalService.saveHospital(this.hospitalDetailsEnroll).toPromise();
+    await this.adminService.setHospitalId(result, this.admin.AdminId).toPromise(); 
     console.log(this.hospitalDetailsEnroll);
     this.toastr.success('Hospital enrolled successfully!', 'Success');
   }
@@ -256,10 +246,7 @@ export class AdminLandingComponent {
   }
 
   bookForWalkin() {
-    this.router.navigateByUrl(`walk-in`, { queryParams: {
-        'hospitalId': this.selectedHospital
-      } 
-    });
+    this.router.navigateByUrl(`/walk-in?hospitalId=${this.selectedHospital}`);
   }
 
   getColumnDefsDoctor() {
