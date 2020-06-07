@@ -50,10 +50,10 @@ Besides, we provide a tool for hospital administration to identify and track the
 
 Day | Frontend | Middle Tier | Database
 ---- | --------| ----------- |----------
-3rd  June | Create wireframes and database schema
+3rd  June | Create wireframes |  Develop scheduling algorithm| Database schema
 4th  June | Basic skeleton development | Backend logic implementation |	Create DB2 service
-5th  June	| Screens development | Backend logic	| Create Schema
-6th  June |	Screens development and testing	|	Web API implementation| DDL, DML creation
+5th  June	| Screens development | Backend logic	| DDL Creation
+6th  June |	Screens development and testing	|	Web API implementation| DML creation
 7th  June	| Integration and testing with Backend | Integration and testing with frontend | Queries creation
 
 ## Getting started
