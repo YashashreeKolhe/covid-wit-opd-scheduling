@@ -6,8 +6,8 @@ The repository holds the code for OPD Scheduling System which will help to follo
 3.	The architecture
 4.	Project roadmap
 5.	Getting started
-6.	Versioning
-7.	Acknowledgement
+6.	Live Demo
+7.	Built with
 
 ## Short description
 
