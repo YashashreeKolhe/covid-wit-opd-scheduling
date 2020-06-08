@@ -65,6 +65,8 @@ You will have the UI running on https://localhost:4200
 
 ### Java Spring setup
 
+The repository for web api is here https://github.com/purvakulkarni15/OPD_Management_System
+
 ##### Prerequisites
   
  * Install maven  https://maven.apache.org/download.cgi
