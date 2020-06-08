@@ -26,6 +26,8 @@ Besides, we provide a tool for hospital administration to identify and track the
 
 ## Demo Video
 
+The demo is available at https://youtu.be/oLVyJdGP5_M
+
 ## The architecture
 
 1.Visitor can register himself and book an appointment at desired hospital through the Angular Web App.
@@ -33,8 +35,6 @@ Besides, we provide a tool for hospital administration to identify and track the
 4.The Spring Web API fetches/dumps data into the db and exposes the data on endpoints. The logic of OPD scheduling and algorithm of       postponing the appointments also lie here. It is deployed on IBM Cloud Foundry.
 5.The DB2 database residing on ibm cloud to store the hospital, appointment, visitor data.
 6.Due to issues in connecting db2 to web api, we are currently doing in-memory storage.
-
-## Long description
 
 ## Project roadmap
 
@@ -91,6 +91,20 @@ You will have the web api running on http://localhost:8080
 
 You can find a running system to test at https://covid-wit-opd-scheduling-delivery-pipeline.eu-gb.mybluemix.net/
 
+NOTE: We are not providing option for Admin registration.
+So if you want to login as an administrator, enter the following credentials on admin login:
+
+```
+EmailId: purva.1497@gmail.com
+Password: 123
+```
+
+You can also use the following credentials for Patient login:
+
+```
+EmailId: pam.beesley@gmail.com
+Password: 123456
+```
 ## Built with
 
 * IBM DB2 warehouse - The database used
