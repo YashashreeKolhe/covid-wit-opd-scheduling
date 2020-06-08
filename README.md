@@ -69,9 +69,9 @@ You will have the UI running on https://localhost:4200
   
  * Install maven  https://maven.apache.org/download.cgi
  * Verify maven installation
-   ```
-   mvn -v
-   ```
+ ```
+ mvn -v
+ ```
 Clone the repository.
  * Build project using the command
   ```
